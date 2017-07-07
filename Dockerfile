@@ -14,12 +14,17 @@ ENV LIFERAY_TOMCAT_URL=https://sourceforge.net/projects/lportal/files/Liferay%20
 
 WORKDIR /usr/local
 
+RUN mkdir /data
+VOLUME /data
+RUN touch /data/readme.txt
+
 RUN mkdir -p "$LIFERAY_HOME" \
 			&& set -x \
 			&& curl -fSL "$LIFERAY_TOMCAT_URL" -o liferay-ce-portal-tomcat-7.0-ga4-20170613175008905.zip \
 			&& unzip liferay-ce-portal-tomcat-7.0-ga4-20170613175008905.zip \
 			&& rm liferay-ce-portal-tomcat-7.0-ga4-20170613175008905.zip \
-      && chown -R liferay:liferay $LIFERAY_HOME
+      && chown -R liferay:liferay $LIFERAY_HOME \
+      && chown -R liferay:liferay /data	
 
 EXPOSE 8080/tcp
 EXPOSE 11311/tcp
